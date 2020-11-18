@@ -1,0 +1,19 @@
+.Navbar nav {
+    padding-top: 10px;
+    height: 5vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    background-color: gray;
+    border: 2px solid black;
+}
+
+.Navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.Navbar nav a.active {
+    background-color: blue;
+}
