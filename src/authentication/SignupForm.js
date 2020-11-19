@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory, Redirect } from "react-router-dom";
-import UserContext from "./auth/UserContext";
+//import UserContext from "../auth/UserContext";
 
 function SignupForm({ signUp }) {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ function SignupForm({ signUp }) {
     email: "",
   });
   const history = useHistory();
-  const { currentUser } = useContext(UserContext);
+  //const { currentUser } = useContext(UserContext);
 
   /** Update form input. */
   function handleChange(evt) {
@@ -43,7 +43,7 @@ function SignupForm({ signUp }) {
   }
 
   /** Check if logged in already */
-  if (currentUser) return <Redirect to="/" />;
+  //if (currentUser) return <Redirect to="/" />;
 
   return (
     <div>
