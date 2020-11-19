@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
-import Alert from "./misc/Alert";
-import JoblyApi from "./api";
-import UserContext from "./auth/UserContext";
+import JoblyApi from "../api/api";
+import UserContext from "../api/UserContext";
 
-import useTimedMessage from "./hooks/TimedMessage";
+
 
 /** Profile editing form
  * 
@@ -19,27 +18,28 @@ import useTimedMessage from "./hooks/TimedMessage";
  */
 
 function Profile() {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const {currentUser, setCurrentUser}  = useContext(UserContext);
+
     const [formData, setFormData] = useState({
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        email: currentUser.email,
-        username: currentUser.username,
+        firstName: currentUser.user.firstName,
+        lastName: currentUser.user.lastName,
+        email: currentUser.user.email,
         password: "",
     });
+    const username = currentUser.user.username;
     const [formErrors, setFormErrors] = useState([]);
 
     // Switch to message hook 
-    const [saveConfirmed, setsSaveConfirmed] = useState(false);
+    // const [saveConfirmed, setsSaveConfirmed] = useState(false);
     // const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
 
-    console.debug(
-        "Profile",
-        "currentUser=", currentUser,
-        "formData=", formData,
-        "formErrors=", formErrors,
-        "saveConfirmed=", saveConfirmed,
-    );
+    // console.debug(
+    //     "Profile",
+    //     "currentUser=", currentUser,
+    //     "formData=", formData,
+    //     "formErrors=", formErrors,
+    //     "saveConfirmed=", saveConfirmed,
+    // );
 
     /** on form submit:
      * -attempt to save to the backend & report any errors
@@ -51,31 +51,20 @@ function Profile() {
 
      async function handleSubmit(evt) {
          evt.preventDefault();
-
-         let profileData = {
+        console.log("submit")
+         let userData = {
              firstName: formData.firstName,
              lastName: formData.lastName,
              email: formData.email,
              password: formData.password,
          };
-
-         let username = formData.username;
-         let updatedUser;
-
          try {
-             updatedUser = await JoblyApi.saveProfile(username, profileData);
+             const updatedUser = await JoblyApi.updateUser(userData, username);
+             setFormData(f => ({ ...f, password: "" }));
+             setCurrentUser(updatedUser);
          } catch (errors) {
-             debugger;
-             setFormErrors(errors);
-             return;
+             console.log(errors)
          }
-
-         setFormData(f => ({ ...f, password: "" }));
-         setFormErrors([]);
-         setsSaveConfirmed(true);
-
-         //trigger reloading of user information throughout the site
-         setCurrentUser(updatedUser);
      }
 
      /** Handle form data changing */
@@ -90,13 +79,10 @@ function Profile() {
     return (
         <div className="col-md-6 col-lg-4 offset-md-3 offset-lg-4">
             <h3>Profile</h3>
+    <h4>{username}{currentUser.user.firstName}</h4>
             <div className="card">
                 <div className="card-body">
                     <form>
-                        <div className="form-group">
-                            <label>Username</label>
-                            <p className="form-control-plaintext">{formData.username}</p>
-                        </div>
                         <div className="form-group">
                             <label>First Name</label>
                             <input
@@ -134,16 +120,7 @@ function Profile() {
                                 onChange={handleChange}
                             />
                         </div>
-
-                        {formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
-
-                        {saveConfirmed ? <Alert type="success" messages={["Updated succesfully."]} /> : null}
-
-                        <button className="btn btn-primary btn-block mt-4"
-                                onClick={handleSubmit}
-                        
-                        
-                        >Save Changes</button>
+                        <button className="btn btn-primary btn-block mt-4"onClick={handleSubmit}>Save Changes</button>
                     </form>
                 </div>
             </div>

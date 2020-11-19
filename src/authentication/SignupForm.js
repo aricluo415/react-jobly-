@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
 import {useHistory} from 'react-router-dom';
-import JoblyApi from './api';
+//import UserContext from "./auth/UserContext";
 
-function SignupForm() {
+function SignupForm({signUp}) {
     const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -11,6 +11,7 @@ function SignupForm() {
         email: ""
 	}); 
     const history = useHistory();
+
 
 	 /** Update form input. */
 	function handleChange(evt) {
@@ -24,8 +25,7 @@ function SignupForm() {
 	/** Submit form: call function setAuthToken from parent & clear inputs. */
     async function handleSubmit(evt) {
         evt.preventDefault();
-
-        const token = await JoblyApi.userSignUp({
+        signUp({
             username: formData.username,
             password: formData.password, 
             firstName: formData.firstName,
@@ -34,12 +34,9 @@ function SignupForm() {
             });
         setFormData({ username: "", password: "", firstName: "" , lastName: "", email: ""});
         history.push('/login');
-    
     }
     /** Check if logged in already */
-    if (localStorage.token) {
-        history.push("/home")
-    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>

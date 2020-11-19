@@ -1,0 +1,35 @@
+.Home {
+    /* put around the vertical center of page */
+    background: rgb(229, 205, 245);
+    background: linear-gradient(90deg, rgba(229, 205, 245, 1) 0%, rgba(203, 203, 203, 1) 50%, rgba(240, 217, 185, 1) 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+}
+
+@keyframes jobly {
+    from {
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: rgb(58, 209, 255);
+    }
+    to {
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: rgb(255, 163, 163);
+    }
+}
+
+.jobly {
+    font-family: Brush Script MT, Brush Script Std, cursive;
+    font-size: 200px;
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    animation: jobly 1s infinite;
+}
+
+.lead {
+    font-family: Brush Script MT, Brush Script Std, cursive;
+    font-size: 40px;
+}

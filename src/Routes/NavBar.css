@@ -1,0 +1,51 @@
+.Navbar nav {
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    background: rgb(131, 58, 180);
+    background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+}
+
+.Navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: null;
+}
+
+.Navbar nav a.active {
+    background-color: rgb(0, 140, 255);
+    border-radius: 20px;
+    height: 7.5vh;
+    width: 16vw;
+    border: 2px solid white
+}
+
+.nav-link {
+    font-family: Brush Script MT, Brush Script Std, cursive;
+}
+
+.Navbar button {
+    margin-bottom: 1vh;
+    height: 2.5vh;
+    width: 8vw;
+    font-size: 28px;
+    font-family: Brush Script MT, Brush Script Std, cursive;
+    border-radius: 20px;
+    box-shadow: 50px black;
+    color: black;
+    background-color: white;
+    transition: 0s background-color;
+    transition: 0s color;
+}
+
+.Navbar button:hover {
+    color: white;
+    background-color: black;
+    animation-duration: 3s;
+    transition: .6s;
+}

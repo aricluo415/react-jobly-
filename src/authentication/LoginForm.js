@@ -1,8 +1,7 @@
 import React,{useState} from 'react'
 import {useHistory, Redirect} from 'react-router-dom';
-import JoblyApi from './api';
 
-function LoginForm({setAuthToken, token}) {
+function LoginForm({login, token}) {
 
     const [formData, setFormData] = useState({
 		username: "",
@@ -21,16 +20,12 @@ function LoginForm({setAuthToken, token}) {
     /** Submit form to API, log in and then call parent function setAuthToken */
     async function handleSubmit(evt) {
         evt.preventDefault();
-        const newToken = await JoblyApi.userLogin(formData);
+        login(formData);
         setFormData({username:"", password:""})
-        setAuthToken(newToken);
         history.push("/home");
     }
     /** Check if logged in already */
-    if (localStorage.token) {
-        console.log("redirect to home")
-        return <Redirect to="/home"/>
-    }
+
     /** Form to login */
     return (  
         <div>

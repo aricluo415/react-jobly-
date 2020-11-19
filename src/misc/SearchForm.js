@@ -1,49 +1,56 @@
-import React, { useState } from "react";
-import "./SearchForm.css";
+import React,{useState, useEffect} from 'react'
 
-/** Search widget
- * 
- * Appears on CompanyList and Joblist so that these can be filtered down.
- * 
- * This component doesn't *do* the searching, but it renders the search form
- * and calls the 'searchFor' function prop that run in a parent to do 
- * the searching.
- * 
- * { CompanyList, JobList } -> SearchForm
- */
+function SearchForm({filters, filterSearch}) {
 
- function SearchForm({ searchFor }) {
-     const [searchTerm, setSearchTerm] = useState("");
+    const [searchFilters, setSearchFilters] = useState({})
+    const [isLoading, setLoading] = useState(true);
 
-     /** Tell Parent what to filter */
-     function handleSubmit(evt) {
-         /** Take care of accidently trying to search for just spaces */
-         evt.preventDefault();
-         searchFor(searchTerm.trim() || undefined);
-         setSearchTerm(searchTerm.trim());
-     }
+    useEffect(function setFiltersOnMount() {
+        setSearchFilters(filterData=> {
+            filters.forEach(filter=> filterData[filter] = "")
+            return {...filterData}
+        });
+        setLoading(false);
+    }, [])
 
-     /** Update form fields */
-     function handleChange(evt) {
-         setSearchTerm(evt.target.value);
-     }
+    function handleChange(evt) {
+        const { name, value } = evt.target;
+        setSearchFilters(formData => ({
+            ...formData,
+            [name]: value,
+        }));
+    }
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        let filters = {};
+        Object.keys(searchFilters).forEach(filter=> {
+            if (searchFilters[filter] !== "") {
+                filters[filter] = searchFilters[filter];
+            }
+        })
+        filterSearch(filters);
+    }
+    if (isLoading) return <div>Loading...</div>
+    return (
+        <div>
+            <div>
+            <form onSubmit={handleSubmit}>
+            {filters.map(filter=> 
+                (<div key={filter}>
+                    <label htmlFor={`newBox-${filter}`}>{filter}</label>
+                    <input 
+                        id={`newBox-${filter}}`}
+                        onChange={handleChange}
+                        name={filter}
+                        value={searchFilters[filter]}
+                    />
+                </div>)
+            )}
+            <button className="NewStoryForm-addBtn">Submit</button>
+            </form>
+        </div>
+        </div>
+    )
+}
 
-     return (
-         <div className="SearchForm mb-4">
-             <form className="form-inline" onSubmit={handleSubmit}>
-                 <input 
-                    className="form-control form-control-lg flex-grow-1"
-                    name="searchTerm"
-                    placeholder="Enter a search term"
-                    value={searchTerm}
-                    onChange={handleChange}
-                />
-                <button type="submit" className="btn btn-lg btn-primary">
-                    Submit
-                </button>
-             </form>
-         </div>
-     );
- }
-
- export default SearchForm;
+export default SearchForm
