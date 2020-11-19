@@ -9,6 +9,7 @@ function CompanyList() {
     const [companyList, setCompanyList] = useState([]);
     const [isLoading, setLoading] = useState(true);
 
+    /** initial render */
     useEffect(function fetchCompanyListOnMount() {
         async function fetchCompany() {
             const companies = await JoblyApi.getCompanyList()
@@ -30,10 +31,11 @@ function CompanyList() {
         <div>
             <SearchForm filters={["name","minEmployees","maxEmployees"]} filterSearch={handleSubmit} />
             <ul className="list-group">
-                {companyList.map(company => (
-                <li className="list-group-item"key={uuid()}>
-                    <Link to={`/companies/${company.handle}`}>{company.handle}</Link>
-                </li> ))}
+                { companyList.map(company => (
+                    <li className="list-group-item"key={company.handle}>
+                        <Link to={`/companies/${company.handle}`}>{company.handle}</Link>
+                    </li>
+                ))}
             </ul>
         </div>
     )

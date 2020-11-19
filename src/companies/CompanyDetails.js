@@ -16,14 +16,11 @@ function CompanyDetails() {
             setLoading(false);
         }
         fetchCompany();
-    }, [])
+    }, [ ])
 
-    if (isLoading) return <div>Loading...</div>
-    return (
-        <div>
-            <CompanyCard {...companyDetail} />
-        </div>
-    )
+    if (isLoading) return <div>Loading...</div>;
+
+    return <CompanyCard {...companyDetail} />;
 }
 
 export default CompanyDetails;

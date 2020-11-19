@@ -19,9 +19,7 @@ class JoblyApi {
 
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
-    const params = (method === "get")
-        ? data
-        : {};
+    const params = method === "get" ? data : {};
 
     try {
       return (await axios({ url, method, data, params, headers })).data;
@@ -45,35 +43,35 @@ class JoblyApi {
     return res.companies;
   }
   static async getJobsList(filters) {
-    let res = await this.request(`jobs` , filters);
+    let res = await this.request(`jobs`, filters);
     return res.jobs;
   }
   static async userLogin(loginData) {
-    let res = await this.request('auth/token', loginData, 'post');
+    let res = await this.request("auth/token", loginData, "post");
     return res.token;
   }
   static async userSignUp(signUpData) {
-    let token = await this.request('auth/register', signUpData, 'post');
+    let token = await this.request("auth/register", signUpData, "post");
     return token;
   }
   static async getUser(username) {
     let user = await this.request(`users/${username}`);
-    console.log(user)
+    console.log(user);
     return user;
   }
   static async updateUser(userInfo, username) {
-    console.log(userInfo)
-    let user = await this.request(`users/${username}`, userInfo, 'patch')
-    console.log(user)
+    console.log(userInfo);
+    let user = await this.request(`users/${username}`, userInfo, "patch");
+    console.log(user);
     return user;
   }
   static async applyForJob(username, jobId) {
-    let res = await this.request(`users/${username}/jobs/${jobId}`, {}, 'post')
+    let res = await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
     return res;
   }
   // obviously, you'll add a lot here ...
 }
-console.log("JoblyAPi")
+console.log("JoblyAPi");
 
 // for now, put token ("testuser" / "password" on class)
 // JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
